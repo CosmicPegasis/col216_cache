@@ -4,7 +4,7 @@ CXXFLAGS := -std=c++11 -Wall -Wextra -pedantic
 SRCDIR := src
 BUILDDIR := build
 INCLUDE := include
-TARGET := bin/cacheSim
+TARGET := cacheSim
 
 SRCEXT := cpp
 SOURCES := $(wildcard $(SRCDIR)/*.$(SRCEXT))

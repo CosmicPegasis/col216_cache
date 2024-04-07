@@ -3,34 +3,17 @@
     "arguments": [
       "/usr/bin/g++",
       "-Iinclude",
-      "-std=c++11",
+      "-std=c++14",
       "-Wall",
       "-Wextra",
       "-pedantic",
       "-c",
       "-o",
-      "build/data.o",
-      "src/data.cpp"
+      "build/cache_util.o",
+      "src/cache_util.cpp"
     ],
     "directory": "/home/cosmic/coding/col216/as3",
-    "file": "/home/cosmic/coding/col216/as3/src/data.cpp",
-    "output": "/home/cosmic/coding/col216/as3/build/data.o"
-  },
-  {
-    "arguments": [
-      "/usr/bin/g++",
-      "-Iinclude",
-      "-std=c++11",
-      "-Wall",
-      "-Wextra",
-      "-pedantic",
-      "-c",
-      "-o",
-      "build/main.o",
-      "src/main.cpp"
-    ],
-    "directory": "/home/cosmic/coding/col216/as3",
-    "file": "/home/cosmic/coding/col216/as3/src/main.cpp",
-    "output": "/home/cosmic/coding/col216/as3/build/main.o"
+    "file": "/home/cosmic/coding/col216/as3/src/cache_util.cpp",
+    "output": "/home/cosmic/coding/col216/as3/build/cache_util.o"
   }
 ]

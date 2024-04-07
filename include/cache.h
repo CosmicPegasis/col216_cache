@@ -3,6 +3,7 @@
 #include "eviction_handler.h"
 #include "lru.h"
 #include <queue>
+#include <stdexcept>
 #include <vector>
 
 #pragma once
@@ -60,7 +61,14 @@ class FIFOEvictionHandler : public EvictionHandler
 
     int get_to_evict(int index)
     {
-        return q[index].front();
+        if (get_size(index))
+        {
+            return q[index].front();
+        }
+        else
+        {
+            throw std::runtime_error("FIFO is empty");
+        }
     }
 
     void insert(int index, int addr)
@@ -84,12 +92,13 @@ class Cache
 {
     CacheStatistics stats;
     CacheUtil utils;
+    EvictionHandler evictor;
+    std::set<int> dirty_blocks;
     void handle_load(int address);
     void handle_store(int address);
     void insert(std::set<int> &s, int set_num, int block);
-    std::vector<std::set<int>> cache_matrix;
-    EvictionHandler evictor;
     bool has_block(int block);
+    std::vector<std::set<int>> cache_matrix;
 
   public:
     Cache(CacheParameters params);

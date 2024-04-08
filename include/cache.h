@@ -2,6 +2,8 @@
 #include "data.h"
 #include "eviction_handler.h"
 #include "lru.h"
+#include <iostream>
+#include <memory>
 #include <queue>
 #include <stdexcept>
 #include <vector>
@@ -13,7 +15,7 @@ class LRUEvictionHandler : public EvictionHandler
     std::vector<LRUCache> l;
 
   public:
-    LRUEvictionHandler(long long num_sets) : EvictionHandler(LRU)
+    LRUEvictionHandler(long long num_sets)
     {
         l.resize(num_sets);
     }
@@ -49,7 +51,7 @@ class FIFOEvictionHandler : public EvictionHandler
     std::vector<std::queue<int>> q;
 
   public:
-    FIFOEvictionHandler(long long num_sets) : EvictionHandler(FIFO)
+    FIFOEvictionHandler(long long num_sets)
     {
         q.resize(num_sets);
     }
@@ -92,16 +94,24 @@ class Cache
 {
     CacheStatistics stats;
     CacheUtil utils;
-    EvictionHandler evictor;
+    std::unique_ptr<EvictionHandler> evictor;
     std::set<int> dirty_blocks;
     void handle_load(int address);
     void handle_store(int address);
     void insert(std::set<int> &s, int set_num, int block);
     bool has_block(int block);
-    std::vector<std::set<int>> cache_matrix;
+    void handle_write_back_load_miss(int block, int set_num, std::set<int> &s);
+    void handle_write_through_load_miss();
+    void handle_write_back_save_miss(int block, int set_num, std::set<int> &s);
+    void handle_write_through_save_miss(int block, int set_num, std::set<int> &s);
+    void handle_write_back_load_hit();
+    void handle_write_through_load_hit();
+    void handle_write_back_save_hit(int block, int set_num, std::set<int> &s);
+    void handle_write_through_save_hit(int block, int set_num, std::set<int> &s);
 
   public:
     Cache(CacheParameters params);
     void proc_request(MemReq req);
     CacheStatistics get_statistics();
+    std::vector<std::set<int>> cache_matrix;
 };

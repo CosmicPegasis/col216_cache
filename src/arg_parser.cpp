@@ -1,4 +1,5 @@
 #include "arg_parser.h"
+#include "data.h"
 #include <stdexcept>
 #include <string>
 
@@ -49,7 +50,7 @@ CacheParameters parseArguments(int argc, char *argv[])
     }
     else if (writePolicy == "write-back")
     {
-        params.writeType = WriteAllocate;
+        params.writeType = WriteBack;
     }
     else
     {

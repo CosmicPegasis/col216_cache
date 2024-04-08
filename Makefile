@@ -16,7 +16,7 @@ OBJECTS := $(patsubst $(SRCDIR)/%,$(BUILDDIR)/%,$(SOURCES:.$(SRCEXT)=.o))
 TEST_SRC_OBJECTS := $(patsubst $(SRCDIR)/%,$(BUILDIR)/%,$(TESTS:.$(SRCEXT)=.o))
 TEST_OBJECTS := $(filter-out  $(BUILDDIR)/main.o, $(OBJECTS)) $(TEST_SRC_OBJECTS) 
 
-TEST_FLAGS := -I$(INCLUDE) -L$(LIBDIR) -g
+TEST_FLAGS := -I$(INCLUDE) -L$(LIBDIR)
 
 $(TARGET): $(OBJECTS)
 	@mkdir -p $(@D)
@@ -34,10 +34,10 @@ format:
 	clang-format -i **/*.cpp **/*.h
 
 $(TESTDIR)/%.o: $(TESTDIR)/%.$(SRCEXT) 
-	$(CXX) -I$(INCLUDE) $(CXXFLAGS) -c -o $@ $<
+	$(CXX) -I$(INCLUDE) -c -o $@ $<
 
 tests: $(TEST_OBJECTS)
-	$(CXX) $(TESTFLAGS) $(TEST_OBJECTS) -lgtest_main -lgtest -o $(TEST_TARGET)
+	g++ $(TESTFLAGS) $(TEST_OBJECTS) -lgtest_main -lgtest -o $(TEST_TARGET)
 	./tests
 
 .PHONY: clean format tests

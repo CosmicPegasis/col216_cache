@@ -15,26 +15,24 @@ void print_cache_statistics(const CacheStatistics &stats)
     std::cout << "  Store Misses:     " << stats.store_misses << std::endl;
     std::cout << "  Cycles:           " << stats.cycles << std::endl;
 }
+void print_cache_params(const CacheParameters &params)
+{
+
+    std::cout << "Cache parameters:" << std::endl;
+    std::cout << "Sets: " << params.sets << std::endl;
+    std::cout << "Blocks per set: " << params.blocks << std::endl;
+    std::cout << "Bytes per block: " << params.bytes_per_block << std::endl;
+    std::cout << "Write policy:" << params.writeType << std::endl;
+    std::cout << "Write allocation: " << (params.allocate_on_write ? "Yes" : "No") << std::endl;
+    std::cout << "Eviction policy: " << (params.evict == LRU ? "LRU" : "FIFO") << std::endl;
+}
 int main(int argc, char **argv)
 {
     try
     {
         CacheParameters params = parseArguments(argc, argv);
-
         std::vector<MemReq> requests = parseRequestsFromStdin();
-        std::cout << "Cache parameters:" << std::endl;
-        std::cout << "Sets: " << params.sets << std::endl;
-        std::cout << "Blocks per set: " << params.blocks << std::endl;
-        std::cout << "Bytes per block: " << params.bytes_per_block << std::endl;
-
-        std::cout << "Write allocation: " << (params.allocate_on_write ? "Yes" : "No") << std::endl;
-        std::cout << "Eviction policy: " << (params.evict == LRU ? "LRU" : "FIFO") << std::endl;
-        for (const auto &req : requests)
-        {
-            std::cout << "Instruction: " << (req.ins == Load ? "Load" : "Save") << ", Address: " << req.address
-                      << std::endl;
-        }
-
+        print_cache_params(params);
         Cache cache{params};
         for (MemReq req : requests)
         {

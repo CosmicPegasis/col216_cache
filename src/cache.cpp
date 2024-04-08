@@ -8,7 +8,7 @@ void Cache::handle_write_through_load_hit()
 {
     stats.cycles += CACHE_DELAY;
 }
-void Cache::handle_write_back_load_miss(int block, int set_num, std::set<int> &s)
+void Cache::handle_write_back_load_miss(int set_num, std::set<int> &s)
 {
     if (utils.is_full(s))
     {
@@ -33,16 +33,16 @@ void Cache::handle_write_through_load_miss()
 {
     stats.cycles += CACHE_DELAY * 2 + utils.get_mem_delay();
 }
-void Cache::handle_write_back_save_hit(int block, int set_num, std::set<int> &s)
+void Cache::handle_write_back_save_hit(int block)
 {
     stats.cycles += 2 * CACHE_DELAY;
     dirty_blocks.insert(block);
 }
-void Cache::handle_write_through_save_hit(int block, int set_num, std::set<int> &s)
+void Cache::handle_write_through_save_hit()
 {
     stats.cycles += CACHE_DELAY;
 }
-void Cache::handle_write_through_save_miss(int block, int set_num, std::set<int> &s)
+void Cache::handle_write_through_save_miss()
 {
     if (utils.alloc_on_write())
     {
@@ -63,7 +63,6 @@ void Cache::handle_write_back_save_miss(int block, int set_num, std::set<int> &s
             int to_evict = evictor->get_to_evict(set_num);
             if (dirty_blocks.find(to_evict) != dirty_blocks.end())
             {
-                std::cout << "r\n";
                 dirty_blocks.erase(dirty_blocks.find(to_evict));
                 stats.cycles += CACHE_DELAY * 2 + utils.get_mem_delay() * 2;
             }
@@ -111,7 +110,7 @@ void Cache::handle_load(int address)
         switch (utils.get_write_type())
         {
         case WriteBack: {
-            handle_write_back_load_miss(block, set_num, s);
+            handle_write_back_load_miss(set_num, s);
             break;
         }
         case WriteThrough: {
@@ -146,11 +145,11 @@ void Cache::handle_store(int address)
         switch (utils.get_write_type())
         {
         case WriteThrough: {
-            handle_write_through_save_hit(block, set_num, s);
+            handle_write_through_save_hit();
             break;
         }
         case WriteBack: {
-            handle_write_back_save_hit(block, set_num, s);
+            handle_write_back_save_hit(block);
             break;
         }
         }
@@ -162,7 +161,7 @@ void Cache::handle_store(int address)
         switch (utils.get_write_type())
         {
         case WriteThrough: {
-            handle_write_through_save_miss(block, set_num, s);
+            handle_write_through_save_miss();
             break;
         }
         case WriteBack: {

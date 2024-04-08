@@ -100,14 +100,14 @@ class Cache
     void handle_store(int address);
     void insert(std::set<int> &s, int set_num, int block);
     bool has_block(int block);
-    void handle_write_back_load_miss(int block, int set_num, std::set<int> &s);
+    void handle_write_back_load_miss(int set_num, std::set<int> &s);
     void handle_write_through_load_miss();
     void handle_write_back_save_miss(int block, int set_num, std::set<int> &s);
-    void handle_write_through_save_miss(int block, int set_num, std::set<int> &s);
+    void handle_write_through_save_miss();
     void handle_write_back_load_hit();
     void handle_write_through_load_hit();
-    void handle_write_back_save_hit(int block, int set_num, std::set<int> &s);
-    void handle_write_through_save_hit(int block, int set_num, std::set<int> &s);
+    void handle_write_back_save_hit(int block);
+    void handle_write_through_save_hit();
 
   public:
     Cache(CacheParameters params);

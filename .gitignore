@@ -4,3 +4,4 @@ build/*
 cacheSim
 *.txt
 tests
+test/*.o

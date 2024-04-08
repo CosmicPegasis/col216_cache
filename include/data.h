@@ -13,10 +13,11 @@ enum EvictionType
     LRU,
     FIFO
 };
+// TODO Fix main param printer
 enum WriteType
 {
     WriteThrough,
-    WriteAllocate
+    WriteBack,
 };
 
 struct CacheParameters

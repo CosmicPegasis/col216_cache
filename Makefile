@@ -16,7 +16,7 @@ OBJECTS := $(patsubst $(SRCDIR)/%,$(BUILDDIR)/%,$(SOURCES:.$(SRCEXT)=.o))
 TEST_SRC_OBJECTS := $(patsubst $(SRCDIR)/%,$(BUILDIR)/%,$(TESTS:.$(SRCEXT)=.o))
 TEST_OBJECTS := $(filter-out  $(BUILDDIR)/main.o, $(OBJECTS)) $(TEST_SRC_OBJECTS) 
 
-TEST_FLAGS := -I$(INCLUDE) -L$(LIBDIR)
+TEST_FLAGS := -I$(INCLUDE) -L$(LIBDIR) -g
 
 $(TARGET): $(OBJECTS)
 	@mkdir -p $(@D)
@@ -28,6 +28,7 @@ $(BUILDDIR)/%.o: $(SRCDIR)/%.$(SRCEXT)
 
 clean:
 	@$(RM) -r $(BUILDDIR)/* $(TARGET)
+	rm test/*.o
 
 format:
 	clang-format -i **/*.cpp **/*.h

@@ -1,4 +1,5 @@
 #include "cache_util.h"
+#include <iostream>
 
 CacheUtil::CacheUtil(CacheParameters params) : params{params} {};
 
@@ -32,4 +33,13 @@ bool CacheUtil::is_full(std::set<int> &s)
     {
         return false;
     }
+}
+
+bool CacheUtil::alloc_on_write()
+{
+    return params.allocate_on_write;
+}
+WriteType CacheUtil::get_write_type()
+{
+    return params.writeType;
 }

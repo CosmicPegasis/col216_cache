@@ -8,11 +8,11 @@ void Cache::handle_write_through_load_hit()
 {
     stats.cycles += CACHE_DELAY;
 }
-void Cache::handle_write_back_load_miss(int set_num, std::set<int> &s)
+void Cache::handle_write_back_load_miss(long long set_num, std::set<long long> &s)
 {
     if (utils.is_full(s))
     {
-        int to_evict = evictor->get_to_evict(set_num);
+        long long to_evict = evictor->get_to_evict(set_num);
         if (dirty_blocks.find(to_evict) != dirty_blocks.end())
         {
             dirty_blocks.erase(dirty_blocks.find(to_evict));
@@ -33,7 +33,7 @@ void Cache::handle_write_through_load_miss()
 {
     stats.cycles += CACHE_DELAY * 2 + utils.get_mem_delay();
 }
-void Cache::handle_write_back_save_hit(int block)
+void Cache::handle_write_back_save_hit(long long block)
 {
     stats.cycles += 2 * CACHE_DELAY;
     dirty_blocks.insert(block);
@@ -53,14 +53,14 @@ void Cache::handle_write_through_save_miss()
         stats.cycles += CACHE_DELAY + utils.get_mem_delay();
     }
 }
-void Cache::handle_write_back_save_miss(int block, int set_num, std::set<int> &s)
+void Cache::handle_write_back_save_miss(long long block, long long set_num, std::set<long long> &s)
 {
     /* stats.cycles += CACHE_DELAY; */
     if (utils.alloc_on_write())
     {
         if (utils.is_full(s))
         {
-            int to_evict = evictor->get_to_evict(set_num);
+            long long to_evict = evictor->get_to_evict(set_num);
             if (dirty_blocks.find(to_evict) != dirty_blocks.end())
             {
                 dirty_blocks.erase(dirty_blocks.find(to_evict));
@@ -82,12 +82,12 @@ void Cache::handle_write_back_save_miss(int block, int set_num, std::set<int> &s
     }
     dirty_blocks.insert(block);
 }
-void Cache::handle_load(int address)
+void Cache::handle_load(long long address)
 {
     stats.loads++;
-    int block = utils.get_block_num(address);
-    int set_num = utils.get_set_num(address);
-    std::set<int> &s = cache_matrix[set_num];
+    long long block = utils.get_block_num(address);
+    long long set_num = utils.get_set_num(address);
+    std::set<long long> &s = cache_matrix[set_num];
     if (s.find(block) != s.end())
     {
         stats.load_hits++;
@@ -121,11 +121,11 @@ void Cache::handle_load(int address)
         insert(s, set_num, block);
     }
 }
-void Cache::insert(std::set<int> &s, int set_num, int block)
+void Cache::insert(std::set<long long> &s, long long set_num, long long block)
 {
     if (utils.is_full(s))
     {
-        int replaced = evictor->get_to_evict(set_num);
+        long long replaced = evictor->get_to_evict(set_num);
         evictor->erase(set_num);
         s.erase(s.find(replaced));
     }
@@ -133,12 +133,12 @@ void Cache::insert(std::set<int> &s, int set_num, int block)
     s.insert(block);
     evictor->insert(set_num, block);
 }
-void Cache::handle_store(int address)
+void Cache::handle_store(long long address)
 {
     stats.stores++;
-    int block = utils.get_block_num(address);
-    int set_num = utils.get_set_num(address);
-    std::set<int> &s = cache_matrix[set_num];
+    long long block = utils.get_block_num(address);
+    long long set_num = utils.get_set_num(address);
+    std::set<long long> &s = cache_matrix[set_num];
     if (s.find(block) != s.end())
     {
         stats.store_hits++;

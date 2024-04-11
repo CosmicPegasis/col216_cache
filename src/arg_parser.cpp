@@ -3,7 +3,7 @@
 #include <stdexcept>
 #include <string>
 
-CacheParameters parseArguments(int argc, char *argv[])
+CacheParameters parseArguments(long long argc, char *argv[])
 {
     if (argc != 7)
     {
@@ -73,7 +73,7 @@ CacheParameters parseArguments(int argc, char *argv[])
 
     return params;
 }
-/* int main(int argc, char *argv[]) { */
+/* long long main(long long argc, char *argv[]) { */
 /*   try { */
 /*     CacheParameters params = parseArguments(argc, argv); */
 /*     std::cout << "Cache parameters:" << std::endl; */

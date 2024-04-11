@@ -2,11 +2,11 @@
 #include <iostream>
 #include <sstream>
 #include <vector>
-int hexToLL(const std::string &hexStr)
+long long hexToLL(const std::string &hexStr)
 {
     std::stringstream ss;
     ss << std::hex << hexStr;
-    int address;
+    long long address;
     ss >> address;
     return address;
 }
@@ -20,11 +20,11 @@ std::vector<MemReq> parseRequestsFromStdin()
         std::istringstream iss(line);
         char insChar;
         std::string addressStr;
-        int ignore;
+        long long ignore;
         if (iss >> insChar >> addressStr >> ignore)
         {
             Instruction ins = (insChar == 'l') ? Load : Save;
-            int address = hexToLL(addressStr);
+            long long address = hexToLL(addressStr);
             requests.push_back({ins, address});
         }
     }

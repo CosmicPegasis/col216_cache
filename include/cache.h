@@ -2,7 +2,6 @@
 #include "data.h"
 #include "eviction_handler.h"
 #include "lru.h"
-#include <iostream>
 #include <memory>
 #include <queue>
 #include <stdexcept>
@@ -20,27 +19,27 @@ class LRUEvictionHandler : public EvictionHandler
         l.resize(num_sets);
     }
 
-    int get_size(int index)
+    long long get_size(long long index)
     { // Override declaration
         return l[index].get_size();
     }
 
-    int get_to_evict(int index)
+    long long get_to_evict(long long index)
     {
         return l[index].get_lru();
     }
 
-    void insert(int index, int addr)
+    void insert(long long index, long long addr)
     {
         l[index].insert(addr);
     }
 
-    void erase(int index)
+    void erase(long long index)
     {
         l[index].erase();
     }
 
-    void touch(int index, int addr)
+    void touch(long long index, long long addr)
     {
         l[index].insert(addr);
     }
@@ -48,7 +47,7 @@ class LRUEvictionHandler : public EvictionHandler
 class FIFOEvictionHandler : public EvictionHandler
 {
   private:
-    std::vector<std::queue<int>> q;
+    std::vector<std::queue<long long>> q;
 
   public:
     FIFOEvictionHandler(long long num_sets)
@@ -56,12 +55,12 @@ class FIFOEvictionHandler : public EvictionHandler
         q.resize(num_sets);
     }
 
-    int get_size(int index)
+    long long get_size(long long index)
     {
         return q[index].size();
     }
 
-    int get_to_evict(int index)
+    long long get_to_evict(long long index)
     {
         if (get_size(index))
         {
@@ -73,17 +72,17 @@ class FIFOEvictionHandler : public EvictionHandler
         }
     }
 
-    void insert(int index, int addr)
+    void insert(long long index, long long addr)
     {
         q[index].push(addr);
     }
 
-    void erase(int index)
+    void erase(long long index)
     {
         q[index].pop();
     }
 
-    void touch(int index, int addr)
+    void touch(long long index, long long addr)
     {
         (void)index;
         (void)addr;
@@ -95,23 +94,23 @@ class Cache
     CacheStatistics stats;
     CacheUtil utils;
     std::unique_ptr<EvictionHandler> evictor;
-    std::set<int> dirty_blocks;
-    void handle_load(int address);
-    void handle_store(int address);
-    void insert(std::set<int> &s, int set_num, int block);
-    bool has_block(int block);
-    void handle_write_back_load_miss(int set_num, std::set<int> &s);
+    std::set<long long> dirty_blocks;
+    void handle_load(long long address);
+    void handle_store(long long address);
+    void insert(std::set<long long> &s, long long set_num, long long block);
+    bool has_block(long long block);
+    void handle_write_back_load_miss(long long set_num, std::set<long long> &s);
     void handle_write_through_load_miss();
-    void handle_write_back_save_miss(int block, int set_num, std::set<int> &s);
+    void handle_write_back_save_miss(long long block, long long set_num, std::set<long long> &s);
     void handle_write_through_save_miss();
     void handle_write_back_load_hit();
     void handle_write_through_load_hit();
-    void handle_write_back_save_hit(int block);
+    void handle_write_back_save_hit(long long block);
     void handle_write_through_save_hit();
 
   public:
     Cache(CacheParameters params);
     void proc_request(MemReq req);
     CacheStatistics get_statistics();
-    std::vector<std::set<int>> cache_matrix;
+    std::vector<std::set<long long>> cache_matrix;
 };

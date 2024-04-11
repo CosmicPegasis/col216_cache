@@ -1,9 +1,8 @@
 #include "cache_util.h"
-#include <iostream>
 
 CacheUtil::CacheUtil(CacheParameters params) : params{params} {};
 
-int CacheUtil::get_block_num(int address)
+long long CacheUtil::get_block_num(long long address)
 {
     /* Memory is byte addressed
      * If each block holds 2^b bytes
@@ -13,19 +12,19 @@ int CacheUtil::get_block_num(int address)
 
     return address / params.bytes_per_block;
 }
-int CacheUtil::get_set_num(int address)
+long long CacheUtil::get_set_num(long long address)
 {
     return get_block_num(address) % params.sets;
 }
 
-int CacheUtil::get_mem_delay()
+long long CacheUtil::get_mem_delay()
 {
     return MEM_DELAY * (params.bytes_per_block / NUM_TRANSFER_BYTES);
 }
 
-bool CacheUtil::is_full(std::set<int> &s)
+bool CacheUtil::is_full(std::set<long long> &s)
 {
-    if (s.size() == params.blocks)
+    if ((long long int)s.size() == params.blocks)
     {
         return true;
     }

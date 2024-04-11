@@ -2,6 +2,7 @@
 #define CACHE_DELAY 1
 #define MEM_DELAY 100
 #define NUM_TRANSFER_BYTES 4
+
 enum Instruction
 {
     Load,
@@ -13,7 +14,7 @@ enum EvictionType
     LRU,
     FIFO
 };
-// TODO Fix main param printer
+// TODO Fix main param prlong longer
 enum WriteType
 {
     WriteThrough,
@@ -22,9 +23,9 @@ enum WriteType
 
 struct CacheParameters
 {
-    unsigned long sets;
-    unsigned long blocks;
-    unsigned long bytes_per_block;
+    long long sets;
+    long long blocks;
+    long long bytes_per_block;
     bool allocate_on_write;
     WriteType writeType;
     EvictionType evict;
@@ -33,7 +34,7 @@ struct CacheParameters
 struct MemReq
 {
     Instruction ins;
-    int address;
+    long long address;
 };
 
 struct CacheStatistics

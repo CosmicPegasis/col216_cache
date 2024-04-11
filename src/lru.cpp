@@ -1,7 +1,7 @@
 #include "lru.h"
 #include <stdexcept>
 
-int LRUCache::get_lru()
+long long LRUCache::get_lru()
 {
     if (l.size())
     {
@@ -12,7 +12,7 @@ int LRUCache::get_lru()
         throw std::runtime_error("LRUCache is empty");
     }
 }
-void LRUCache::insert(int addr)
+void LRUCache::insert(long long addr)
 {
     if (m.find(addr) != m.end())
     {
@@ -21,7 +21,7 @@ void LRUCache::insert(int addr)
     l.push_front(addr);
     m[addr] = l.begin();
 }
-int LRUCache::get_size()
+long long LRUCache::get_size()
 {
     return l.size();
 }

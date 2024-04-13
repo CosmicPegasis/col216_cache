@@ -40,7 +40,7 @@ void Cache::handle_write_back_save_hit(long long block)
 }
 void Cache::handle_write_through_save_hit()
 {
-    stats.cycles += CACHE_DELAY;
+    stats.cycles += CACHE_DELAY + utils.get_mem_delay();
 }
 void Cache::handle_write_through_save_miss()
 {
@@ -75,12 +75,12 @@ void Cache::handle_write_back_save_miss(long long block, long long set_num, std:
         {
             stats.cycles += CACHE_DELAY * 2 + utils.get_mem_delay();
         }
+        dirty_blocks.insert(block);
     }
     else
     {
         stats.cycles += CACHE_DELAY + utils.get_mem_delay();
     }
-    dirty_blocks.insert(block);
 }
 void Cache::handle_load(long long address)
 {
@@ -196,5 +196,10 @@ void Cache::proc_request(MemReq req)
 }
 CacheStatistics Cache::get_statistics()
 {
+    for (unsigned long long i = 0; i < dirty_blocks.size(); i++)
+    {
+        stats.cycles += utils.get_mem_delay();
+    }
+    dirty_blocks.clear();
     return this->stats;
 }

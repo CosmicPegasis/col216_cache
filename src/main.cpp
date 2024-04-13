@@ -6,14 +6,13 @@
 
 void print_cache_statistics(const CacheStatistics &stats)
 {
-    std::cout << "Cache Statistics:" << std::endl;
-    std::cout << "  Loads:           " << stats.loads << std::endl;
-    std::cout << "  Load Hits:        " << stats.load_hits << std::endl;
-    std::cout << "  Load Misses:      " << stats.load_misses << std::endl;
-    std::cout << "  Stores:          " << stats.stores << std::endl;
-    std::cout << "  Store Hits:       " << stats.store_hits << std::endl;
-    std::cout << "  Store Misses:     " << stats.store_misses << std::endl;
-    std::cout << "  Cycles:           " << stats.cycles << std::endl;
+    std::cout << "Total loads: " << stats.loads << std::endl;
+    std::cout << "Total stores: " << stats.stores << std::endl;
+    std::cout << "Load hits: " << stats.load_hits << std::endl;
+    std::cout << "Load misses: " << stats.load_misses << std::endl;
+    std::cout << "Store hits: " << stats.store_hits << std::endl;
+    std::cout << "Store misses: " << stats.store_misses << std::endl;
+    std::cout << "Total cycles: " << stats.cycles << std::endl;
 }
 void print_cache_params(const CacheParameters &params)
 {
@@ -32,7 +31,7 @@ int main(int argc, char **argv)
     {
         CacheParameters params = parseArguments(argc, argv);
         std::vector<MemReq> requests = parseRequestsFromStdin();
-        print_cache_params(params);
+        //        print_cache_params(params);
         Cache cache{params};
         for (MemReq req : requests)
         {

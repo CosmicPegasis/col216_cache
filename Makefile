@@ -28,7 +28,8 @@ $(BUILDDIR)/%.o: $(SRCDIR)/%.$(SRCEXT)
 
 clean:
 	@$(RM) -r $(BUILDDIR)/* $(TARGET)
-	rm test/*.o
+	@$(RM) test/*.o
+	@$(RM) tests
 
 format:
 	clang-format -i **/*.cpp **/*.h

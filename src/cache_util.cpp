@@ -1,6 +1,8 @@
 #include "cache_util.h"
 
-CacheUtil::CacheUtil(CacheParameters params) : params{params} {};
+CacheUtil::CacheUtil(CacheParameters params) : params{params}
+{
+}
 
 long long CacheUtil::get_block_num(long long address)
 {

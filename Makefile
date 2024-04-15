@@ -21,6 +21,7 @@ TEST_FLAGS := -I$(INCLUDE) -L$(LIBDIR)
 $(TARGET): $(OBJECTS)
 	@mkdir -p $(@D)
 	$(CXX) -I$(INCLUDE) $^ -o $(TARGET)
+	cp cacheSim csim
 
 $(BUILDDIR)/%.o: $(SRCDIR)/%.$(SRCEXT) 
 	@mkdir -p $(@D)
@@ -30,6 +31,7 @@ clean:
 	@$(RM) -r $(BUILDDIR)/* $(TARGET)
 	@$(RM) test/*.o
 	@$(RM) tests
+	@$(RM) csim
 
 format:
 	clang-format -i **/*.cpp **/*.h

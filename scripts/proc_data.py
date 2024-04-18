@@ -25,6 +25,11 @@ df['hit_rate'] = df.apply(lambda x: (x['load_hits'] + x['store_hits']) / (x['loa
 
 df['actual_size'] = actual_sizes
 
+def get_miss_penalty(bytes_per_block):
+    return  (bytes_per_block * 25) + 1
+
+df['miss_penalty'] = df.apply(lambda x: get_miss_penalty(x['block_size']), axis=1)
+
 # -------------------- For Assoc Check --------------------
 new_indices = []
 for name in df.index:
@@ -35,7 +40,7 @@ for name in df.index:
 # df['block_size'] = []
 
 df.index = new_indices
-plottables = ['total_cycles']
+plottables = ['total_cycles', 'miss_penalty']
 
 print(df)
 for plot in plottables:
